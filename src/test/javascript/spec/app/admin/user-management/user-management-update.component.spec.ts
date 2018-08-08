@@ -42,14 +42,14 @@ describe('Component Tests', () => {
                 [],
                 fakeAsync(() => {
                     // GIVEN
-                    spyOn(service, 'authorities').and.returnValue(of(['USER']));
+                    spyOn(service, 'authorities').and.returnValue(of(['PATIENT']));
 
                     // WHEN
                     comp.ngOnInit();
 
                     // THEN
                     expect(service.authorities).toHaveBeenCalled();
-                    expect(comp.authorities).toEqual(['USER']);
+                    expect(comp.authorities).toEqual(['PATIENT']);
                 })
             ));
         });
