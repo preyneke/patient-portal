@@ -6,6 +6,7 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Ng2Webstorage } from 'ngx-webstorage';
 import { JhiEventManager } from 'ng-jhipster';
 
+
 import { AuthExpiredInterceptor } from './blocks/interceptor/auth-expired.interceptor';
 import { ErrorHandlerInterceptor } from './blocks/interceptor/errorhandler.interceptor';
 import { NotificationInterceptor } from './blocks/interceptor/notification.interceptor';
@@ -15,6 +16,7 @@ import { PatientPortalAppRoutingModule } from './app-routing.module';
 import { PatientPortalHomeModule } from './home/home.module';
 import { PatientPortalAccountModule } from './account/account.module';
 import { PatientPortalEntityModule } from './entities/entity.module';
+import { PatientPortalPatientModule } from './patient/patient.module';
 import { StateStorageService } from 'app/core/auth/state-storage.service';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent, ErrorComponent } from './layouts';
@@ -28,7 +30,8 @@ import { JhiMainComponent, NavbarComponent, FooterComponent, PageRibbonComponent
         PatientPortalCoreModule,
         PatientPortalHomeModule,
         PatientPortalAccountModule,
-        PatientPortalEntityModule
+        PatientPortalEntityModule,
+        PatientPortalPatientModule
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [JhiMainComponent, NavbarComponent, ErrorComponent, PageRibbonComponent, FooterComponent],
