@@ -2,6 +2,7 @@ package com.pluralsight.patientportal.web.rest;
 
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.validation.Valid;
@@ -31,14 +32,10 @@ public class AppointmentResource {
 
     private final Logger log = LoggerFactory.getLogger(AppointmentResource.class);
 
-    private static final String ENTITY_NAME = "appointment";
+   private static List<Appointment>appointments = new ArrayList<>();
 
-    private final AppointmentService appointmentService;
-    private final UserService userService; 
+    public AppointmentResource() {
 
-    public AppointmentResource(AppointmentService appointmentService, UserService userService) {
-        this.appointmentService = appointmentService;
-        this.userService = userService; 
     }
 
     /**
@@ -49,8 +46,7 @@ public class AppointmentResource {
     @GetMapping("/appointments")
     @Timed
     public List<Appointment> getAllAppointments() {
-        log.debug("REST request to get all Appointments");
-        return appointmentService.findAllByUser(userService.getUserWithAuthorities().map(User::getId).orElse(null));
+        return appointments;
     }
 
     /**
@@ -62,15 +58,10 @@ public class AppointmentResource {
      */
     @PostMapping("/appointments")
     @Timed
-    public ResponseEntity<Appointment> createAppointment(@Valid @RequestBody Appointment appointment) throws URISyntaxException {
-        log.debug("REST request to save Appointment : {}", appointment);
-        if (appointment.getId() != null) {
-            return ResponseEntity.badRequest().headers(HeaderUtil.createFailureAlert(ENTITY_NAME, "idexists", "A new appointment cannot already have an ID")).body(null);
-        }
-        appointment.setUserId(userService.getUserWithAuthorities().map(User::getId).orElse(null));
-        Appointment result = appointmentService.save(appointment);
-        return ResponseEntity.created(new URI("/api/appointments/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(ENTITY_NAME, result.getId().toString()))
-            .body(result);
+    public ResponseEntity<Appointment> createAppointment(@Valid @RequestBody Appointment appointment) throws Exception {
+        appointment.setId(appointments.size());
+        appointments.add(appointment);
+        return ResponseEntity.created(new URI("/api/appointments"+ appointment.getId()))
+            .headers(HeaderUtil.createEntityCreationAlert("appointment",appointment.getId().toString())).body(appointment);
     }
 }

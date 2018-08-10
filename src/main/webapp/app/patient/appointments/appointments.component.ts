@@ -1,9 +1,9 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Subscription} from 'rxjs/Subscription';
-import {JhiAlertService, JhiEventManager, JhiParseLinks} from 'ng-jhipster';
+import {JhiAlertService, JhiEventManager} from 'ng-jhipster';
 import {Appointment} from './appointments.model';
 import {AppointmentsService} from './appointments.service';
-import {HttpResponse} from '../../../../../../node_modules/@angular/common/http';
+import {HttpResponse} from '@angular/common/http';
 
 @Component({
     selector: 'jhi-patient-appointments',
@@ -11,32 +11,25 @@ import {HttpResponse} from '../../../../../../node_modules/@angular/common/http'
     styleUrls: ['./appointments.css']
 })
 export class AppointmentsComponent implements OnInit, OnDestroy {
-    currentAppointment: any;
     appointments: Appointment[];
     eventSubscriber: Subscription;
-    error: any;
-    success: any;
-    routeData: any;
-    links: any;
-    totalItems: any;
-    queryCount: any;
-    page: any;
+
 
     constructor(
                 private appointmentService: AppointmentsService,
                 private alertService: JhiAlertService,
                 private eventManager: JhiEventManager,
-                private parseLinks: JhiParseLinks
+
     ) {
     }
 
     loadAll() {
-        this.appointmentService
+      this.eventSubscriber=  this.appointmentService
             .query(
 
             )
             .subscribe(
-                (res: HttpResponse<Appointment[]>) => this.onSuccess(res.body, res.headers),
+                (res: HttpResponse<Appointment[]>) => this.appointments = res.body,
                 (res: HttpResponse<Appointment[]>) => this.onError(res)
             );
     }
@@ -54,12 +47,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy {
     }
     registerChangeInAppointments() {
         this.eventManager.subscribe('appointmentsListModification', response => this.loadAll());    }
-    private onSuccess(data, headers) {
-        this.links = this.parseLinks.parse(headers.get('link'));
-        this.totalItems = headers.get('X-Total-Count');
-        this.queryCount = this.totalItems;
-        this.appointments = data;
-    }
+
     private onError(error) {
         this.alertService.error(error.message, null, null);
     }
