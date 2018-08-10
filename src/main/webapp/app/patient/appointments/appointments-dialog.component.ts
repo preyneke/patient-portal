@@ -1,5 +1,5 @@
 import {Component, OnDestroy, OnInit} from '@angular/core';
-import {ActivatedRoute} from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 
 import {Observable} from 'rxjs/Observable';
 import {NgbActiveModal} from '@ng-bootstrap/ng-bootstrap';
@@ -22,14 +22,17 @@ export class AppointmentsDialogComponent implements OnInit {
         public activeModal: NgbActiveModal,
         private alertService: JhiAlertService,
         private appointmentsService: AppointmentsService,
-        private eventManager: JhiEventManager
+        private eventManager: JhiEventManager,
+        private router: Router
     ) {
     }
 
     ngOnInit() {
         this.isSaving = false;
     }
-
+    previousState() {
+        this.router.navigate(['/patient-appointments']);
+    }
     clear() {
         this.activeModal.dismiss('cancel');
     }
@@ -49,6 +52,7 @@ export class AppointmentsDialogComponent implements OnInit {
         this.eventManager.broadcast({ name: 'appointmentListModification', content: 'OK'});
         this.isSaving = false;
         this.activeModal.dismiss(result);
+        this.previousState();
     }
 
     private onSaveError(error) {

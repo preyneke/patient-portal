@@ -24,7 +24,7 @@ public class Appointment implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sequenceGenerator")
     @SequenceGenerator(name = "sequenceGenerator")
-    private Integer id;
+    private Long id;
 
     @Column(name = "user_id", nullable = false)
     private Long userId;
@@ -41,11 +41,11 @@ public class Appointment implements Serializable {
     @Column(name = "phone_number", nullable = false)
     private String phoneNumber;
 
-    public Integer getId() {
+    public Long getId() {
         return id;
     }
 
-    public void setId(Integer id) {
+    public void setId(Long id) {
         this.id = id;
     }
 

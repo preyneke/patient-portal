@@ -46,7 +46,7 @@ export class AppointmentsComponent implements OnInit, OnDestroy {
         return item.id;
     }
     registerChangeInAppointments() {
-        this.eventManager.subscribe('appointmentsListModification', response => this.loadAll());    }
+        this.eventManager.subscribe('appointmentsListModification', (response) => this.loadAll());    }
 
     private onError(error) {
         this.alertService.error(error.message, null, null);
